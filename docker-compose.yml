@@ -4,3 +4,16 @@
     build:
       context: .
       dockerfile: API/Dockerfile
+      
+  db:
+    image: postgres:17.4
+    ports: [ "5432:5432" ]
+    environment: [ "POSTGRES_PASSWORD=postgres", "POSTGRES_USER=postgres" ]
+    volumes: [ "./.docker-volumes/postgres:/var/lib/postgresql/data" ]
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d postgres" ]
+      interval: 15s
+      timeout: 12s
+      retries: 5
+      start_period: 15s
+
