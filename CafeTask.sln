@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{CF916824-958F-48D0-A138-5A39B9DECF8C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EB4D9508-1DCA-4298-8D4B-DC0C769D9C21}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{DA4D4B4A-565F-4CB1-B558-5D1EF6EA6EDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{01E09553-B34C-4B2F-91D9-3E036FE0912C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{B2E109E4-C363-404A-9EFA-29D34B28A9F8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CF916824-958F-48D0-A138-5A39B9DECF8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF916824-958F-48D0-A138-5A39B9DECF8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF916824-958F-48D0-A138-5A39B9DECF8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF916824-958F-48D0-A138-5A39B9DECF8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA4D4B4A-565F-4CB1-B558-5D1EF6EA6EDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA4D4B4A-565F-4CB1-B558-5D1EF6EA6EDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA4D4B4A-565F-4CB1-B558-5D1EF6EA6EDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA4D4B4A-565F-4CB1-B558-5D1EF6EA6EDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01E09553-B34C-4B2F-91D9-3E036FE0912C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01E09553-B34C-4B2F-91D9-3E036FE0912C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01E09553-B34C-4B2F-91D9-3E036FE0912C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01E09553-B34C-4B2F-91D9-3E036FE0912C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2E109E4-C363-404A-9EFA-29D34B28A9F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2E109E4-C363-404A-9EFA-29D34B28A9F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2E109E4-C363-404A-9EFA-29D34B28A9F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2E109E4-C363-404A-9EFA-29D34B28A9F8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
