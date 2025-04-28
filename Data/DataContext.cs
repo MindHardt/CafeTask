@@ -12,6 +12,7 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSnakeCaseNamingConvention();
+        optionsBuilder.UseAsyncSeeding(Seeder.SeedAsync);
         base.OnConfiguring(optionsBuilder);
     }
 

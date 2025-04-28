@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250428142608_Initial")]
-    partial class Initial
+    [Migration("20250428174145_AddedPrecisionToPrices")]
+    partial class AddedPrecisionToPrices
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,12 @@ namespace Data.Migrations
                         .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("customer_name")
+                        .UseCollation("ru-RU-x-icu");
 
                     b.Property<DateTimeOffset>("OrderDate")
                         .HasColumnType("timestamp with time zone")
@@ -83,7 +89,8 @@ namespace Data.Migrations
                         .UseCollation("ru-RU-x-icu");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("numeric")
+                        .HasPrecision(9, 2)
+                        .HasColumnType("numeric(9,2)")
                         .HasColumnName("price");
 
                     b.HasKey("Name")

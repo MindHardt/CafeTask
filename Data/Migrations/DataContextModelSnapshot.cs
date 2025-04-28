@@ -31,6 +31,12 @@ namespace Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("customer_name")
+                        .UseCollation("ru-RU-x-icu");
+
                     b.Property<DateTimeOffset>("OrderDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("order_date");
@@ -77,10 +83,11 @@ namespace Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text")
                         .HasColumnName("name")
-                        .UseCollation("ru_RU.UTF-8");
+                        .UseCollation("ru-RU-x-icu");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("numeric")
+                        .HasPrecision(9, 2)
+                        .HasColumnType("numeric(9,2)")
                         .HasColumnName("price");
 
                     b.HasKey("Name")

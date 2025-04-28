@@ -9,6 +9,8 @@ public class ProductEntity : IEntityTypeConfiguration<Product>
     public void Configure(EntityTypeBuilder<Product> builder)
     {
         builder.HasKey(x => x.Name);
-        builder.Property(x => x.Name).UseCollation("ru_RU.UTF-8");
+        builder.Property(x => x.Name).UseCollation("ru-RU-x-icu");
+
+        builder.Property(x => x.Price).HasPrecision(9, 2);
     }
 }

@@ -31,7 +31,7 @@ namespace Data.Migrations
                 name: "products",
                 columns: table => new
                 {
-                    name = table.Column<string>(type: "text", nullable: false, collation: "ru_RU.UTF-8"),
+                    name = table.Column<string>(type: "text", nullable: false, collation: "ru-RU-x-icu"),
                     price = table.Column<decimal>(type: "numeric", nullable: false)
                 },
                 constraints: table =>
