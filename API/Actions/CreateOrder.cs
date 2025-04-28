@@ -45,17 +45,7 @@ public partial class CreateOrder
         dataContext.Orders.Add(order);
         await dataContext.SaveChangesAsync(ct);
         
-        var totalPrice = await dataContext.OrderProducts
-            .Where(x => x.OrderId == order.Id)
-            .SumAsync(x => x.Product!.Price * x.Quantity, ct);
-        return TypedResults.Ok(new OrderModel(
-            order.Id, 
-            order.CustomerName, 
-            order.OrderDate, 
-            order.PaymentType, 
-            order.Status, 
-            order.Products.ToDictionary(x => x.ProductName, x => x.Quantity),
-            totalPrice));
+        return TypedResults.Ok(OrderModel.FromOrder(order));
     }
 
     private static async Task<ValidationProblem?> ValidateRequest(
