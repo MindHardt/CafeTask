@@ -1,14 +1,23 @@
 ﻿services:
   api:
-    image: api
+    image: un1ver5e/cafetask-api
     build:
       context: .
-      dockerfile: API/Dockerfile
+      dockerfile: Api/Dockerfile
     ports: ["8080:8080"]
     environment:
       ASPNETCORE_ENVIRONMENT: Staging
       ConnectionStrings__Postgres: Host=db; User ID=postgres; Password=postgres; Database=cafe_task
       Serilog__WriteTo__1__Args__serverUrl: http://seq:5341
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "--fail", "http://localhost:8080/healthz" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
       
   db:
     image: postgres:17.4

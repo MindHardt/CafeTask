@@ -19,6 +19,7 @@ builder.Services.AddSerilog(logger =>
 {
     logger.ReadFrom.Configuration(builder.Configuration);
 });
+builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
@@ -34,6 +35,7 @@ if (app.Environment.IsProduction() is false)
 }
 
 app.UseHttpsRedirection();
+app.MapHealthChecks("/healthz");
 app.MapApiEndpoints();
 
 await app.RunAsync();
