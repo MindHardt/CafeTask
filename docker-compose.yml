@@ -8,6 +8,7 @@
     environment:
       ASPNETCORE_ENVIRONMENT: Staging
       ConnectionStrings__Postgres: Host=db; User ID=postgres; Password=postgres; Database=cafe_task
+      Serilog__WriteTo__1__Args__serverUrl: http://seq:5341
       
   db:
     image: postgres:17.4
@@ -20,4 +21,10 @@
       timeout: 12s
       retries: 5
       start_period: 15s
+      
+  seq:
+    image: datalust/seq:2024.3
+    ports: [ "5341:80" ]
+    environment: [ "ACCEPT_EULA=Y" ]
+    volumes: [ "./.docker-volumes/seq:/data" ]
 

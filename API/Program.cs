@@ -4,6 +4,7 @@ using Data;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,10 @@ builder.Services.ConfigureHttpJsonOptions(json =>
     json.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
 builder.Services.AddDataProtection().PersistKeysToDbContext<DataContext>();
+builder.Services.AddSerilog(logger =>
+{
+    logger.ReadFrom.Configuration(builder.Configuration);
+});
 
 var app = builder.Build();
 
