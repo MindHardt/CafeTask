@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Actions;
 
-[Handler, MapPatch("orders/{orderId:int}")]
-public partial class ChangeStatus
+[Handler, MapPatch("orders/{orderId:int}/finish")]
+public partial class FinishOrder
 {
     public record Request
     {
@@ -22,7 +22,7 @@ public partial class ChangeStatus
 
         public record Body
         {
-            public required OrderStatus NewStatus { get; set; }
+            public required OrderStatus Status { get; set; }
         }
     }
 
@@ -37,7 +37,7 @@ public partial class ChangeStatus
             return validationProblem;
         }
         
-        order!.Status = request.Content.NewStatus;
+        order!.Status = request.Content.Status;
         await dataContext.SaveChangesAsync(ct);
 
         return TypedResults.Ok(OrderModel.FromOrder(order));
@@ -48,11 +48,11 @@ public partial class ChangeStatus
         DataContext dataContext,
         CancellationToken ct)
     {
-        if (request.Content.NewStatus is not (OrderStatus.Completed or OrderStatus.Cancelled))
+        if (request.Content.Status is not (OrderStatus.Completed or OrderStatus.Cancelled))
         {
             return (TypedResults.ValidationProblem(new Dictionary<string, string[]>
             {
-                [JsonNamingPolicy.CamelCase.ConvertName(nameof(request.Content.NewStatus))] = ["BAD_STATUS"]
+                [JsonNamingPolicy.CamelCase.ConvertName(nameof(request.Content.Status))] = ["BAD_STATUS"]
             }), null);
         }
         
