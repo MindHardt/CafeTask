@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using Api;
 using Data;
 using Microsoft.AspNetCore.DataProtection;
@@ -14,10 +13,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 });
 builder.Services.AddApiHandlers();
 builder.Services.AddOpenApi();
-builder.Services.ConfigureHttpJsonOptions(json =>
-{
-    json.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
-});
+builder.Services.ConfigureHttpJsonOptions(json => json.SerializerOptions.ConfigureDefaults());
 builder.Services.AddDataProtection().PersistKeysToDbContext<DataContext>();
 builder.Services.AddSerilog(logger =>
 {
@@ -31,8 +27,6 @@ await using (var scope = app.Services.CreateAsyncScope())
     await scope.ServiceProvider.GetRequiredService<DataContext>().Database.MigrateAsync();
 }
 
-// Configure the HTTP request pipeline.
-
 if (app.Environment.IsProduction() is false)
 {
     app.MapOpenApi();
@@ -42,4 +36,6 @@ if (app.Environment.IsProduction() is false)
 app.UseHttpsRedirection();
 app.MapApiEndpoints();
 
-app.Run();
+await app.RunAsync();
+
+public partial class Program; // for unit tests

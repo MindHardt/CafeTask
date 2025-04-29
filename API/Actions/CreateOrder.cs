@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Api.Models;
 using Data;
 using Domain;
@@ -53,26 +54,31 @@ public partial class CreateOrder
         DataContext dataContext, 
         CancellationToken ct)
     {
-        Dictionary<string, string[]> productErrors = [];
+        Dictionary<string, string[]> errors = [];
+
+        if (Enum.IsDefined(request.PaymentType) is false)
+        {
+            errors[JsonNamingPolicy.CamelCase.ConvertName(nameof(request.PaymentType))] = ["UNDEFINED"];
+        }
         foreach (var (product, count) in request.Products)
         {
-            List<string> errors = [];
+            List<string> productErrors = [];
             if (count <= 0)
             {
-                errors.Add("COUNT_NOT_POSITIVE");
+                productErrors.Add("COUNT_NOT_POSITIVE");
             }
 
             if (await dataContext.Products.AnyAsync(x => x.Name == product, ct) is false)
             {
-                errors.Add("PRODUCT_NOT_FOUND");
+                productErrors.Add("PRODUCT_NOT_FOUND");
             }
 
-            if (errors.Count != 0)
+            if (productErrors.Count != 0)
             {
-                productErrors[product] = [..errors];
+                errors[product] = [..productErrors];
             }
         }
 
-        return productErrors.Count != 0 ? TypedResults.ValidationProblem(productErrors) : null;
+        return errors.Count != 0 ? TypedResults.ValidationProblem(errors) : null;
     }
 }
