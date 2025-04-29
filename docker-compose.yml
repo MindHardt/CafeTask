@@ -4,6 +4,10 @@
     build:
       context: .
       dockerfile: API/Dockerfile
+    ports: ["8080:8080"]
+    environment:
+      ASPNETCORE_ENVIRONMENT: Staging
+      ConnectionStrings__Postgres: Host=db; User ID=postgres; Password=postgres; Database=cafe_task
       
   db:
     image: postgres:17.4

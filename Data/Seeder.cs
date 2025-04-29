@@ -25,14 +25,21 @@ public static class Seeder
                 Price = 299
             }
         ];
-        dbContext.Set<Product>().AddRange(products);
-        try
+        foreach (var product in products)
         {
-            await dbContext.SaveChangesAsync(ct);
-        }
-        catch
-        {
-            // ignored
+            if (await dbContext.Set<Product>().AnyAsync(x => x.Name == product.Name, ct))
+            {
+                continue;
+            }
+            try
+            {
+                dbContext.Set<Product>().Add(product);
+                await dbContext.SaveChangesAsync(ct);
+            }
+            catch
+            {
+                // ignored
+            }
         }
     }
 }

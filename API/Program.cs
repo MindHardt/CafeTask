@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Api;
 using Data;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -16,6 +17,7 @@ builder.Services.ConfigureHttpJsonOptions(json =>
 {
     json.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
 });
+builder.Services.AddDataProtection().PersistKeysToDbContext<DataContext>();
 
 var app = builder.Build();
 
