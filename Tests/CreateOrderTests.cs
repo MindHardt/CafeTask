@@ -19,6 +19,7 @@ public class CreateOrderTests(ApiFixture fixture)
 
         var request = Sample.CreateOrderRequest();
         var response = await client.PostAsJsonAsync("/orders", request, ApiFixture.JsonOptions, ct);
+        response.EnsureSuccessStatusCode();
         var result = await response.Content.ReadFromJsonAsync<OrderModel>(ApiFixture.JsonOptions, ct);
         
         Assert.NotNull(result);

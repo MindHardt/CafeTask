@@ -7,7 +7,7 @@ namespace Tests.Infrastructure;
 public static class Sample
 {
     public static DateTimeOffset Date { get; } = 
-        new(2025, 04, 29, 23, 50, 30, TimeSpan.Zero);
+        new(2025, 01, 01, 12, 00, 00, TimeSpan.Zero);
     
     public static CreateOrder.Request CreateOrderRequest() => new()
     {
