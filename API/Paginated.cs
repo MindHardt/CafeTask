@@ -7,9 +7,9 @@ public static class Paginated
     public record Request
     {
         [DefaultValue(0)]
-        public required int Skip { get; set; }
+        public int Skip { get; set; } = 0;
         [DefaultValue(20)]
-        public required int Take { get; set; }
+        public int Take { get; set; } = 20;
 
         public Response<T> CreateResponse<T>(IReadOnlyCollection<T> items, int? total) => new(
             items, total, Skip, Take);

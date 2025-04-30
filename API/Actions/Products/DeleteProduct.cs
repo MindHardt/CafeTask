@@ -16,44 +16,24 @@ public partial class DeleteProduct
         public required int ProductId { get; set; }
     }
 
-    private static async ValueTask<Results<ValidationProblem, Ok>> HandleAsync(
-        Request request,
-        DataContext dataContext,
-        CancellationToken ct)
-    {
-        var (problem, product) = await ValidateRequest(request, dataContext, ct);
-        if (problem is not null)
-        {
-            return problem;
-        }
-        
-        dataContext.Products.Remove(product);
-        await dataContext.SaveChangesAsync(ct);
-
-        return TypedResults.Ok();
-    }
-
-    private static async ValueTask<(ValidationProblem?, Product)> ValidateRequest(
+    private static async ValueTask<Results<NotFound, Ok>> HandleAsync(
         Request request,
         DataContext dataContext,
         CancellationToken ct)
     {
         if (request.ProductId <= 0)
         {
-            return (TypedResults.ValidationProblem(new Dictionary<string, string[]>
-            {
-                [JsonNamingPolicy.CamelCase.ConvertName(nameof(request.ProductId))] = ["NOT_FOUND"]
-            }), null!);
+            return TypedResults.NotFound();
         }
         var product = await dataContext.Products.FirstOrDefaultAsync(x => x.Id == request.ProductId, ct);
         if (product is null)
         {
-            return (TypedResults.ValidationProblem(new Dictionary<string, string[]>
-            {
-                [JsonNamingPolicy.CamelCase.ConvertName(nameof(request.ProductId))] = ["NOT_FOUND"]
-            }), null!);
+            return TypedResults.NotFound();
         }
+        
+        dataContext.Products.Remove(product);
+        await dataContext.SaveChangesAsync(ct);
 
-        return (null, product);
+        return TypedResults.Ok();
     }
 }
