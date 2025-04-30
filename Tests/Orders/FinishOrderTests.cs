@@ -36,7 +36,7 @@ public class FinishOrderTests(ApiFixture fixture)
     [Theory]
     [InlineData(OrderStatus.Cancelled)]
     [InlineData(OrderStatus.Completed)]
-    public async Task FinishOrder_OrderCompleted_Failure(OrderStatus status)
+    public async Task FinishOrder_OrderCompleted_Error(OrderStatus status)
     {
         var ct = TestContext.Current.CancellationToken;
         var client = fixture.Api.CreateClient();
@@ -59,7 +59,7 @@ public class FinishOrderTests(ApiFixture fixture)
     }
     
     [Fact]
-    public async Task FinishOrder_BadStatus_Failure()
+    public async Task FinishOrder_BadStatus_Error()
     {
         var ct = TestContext.Current.CancellationToken;
         var client = fixture.Api.CreateClient();

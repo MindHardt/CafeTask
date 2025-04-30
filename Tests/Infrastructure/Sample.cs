@@ -1,4 +1,5 @@
 using Api.Actions;
+using Api.Actions.Products;
 using Data;
 using Domain;
 
@@ -19,5 +20,13 @@ public static class Sample
             [Seeder.Products.Olivier.Name] = 2,
             [Seeder.Products.Tiramisu.Name] = 3
         }
+    };
+
+    private static volatile int _productNumber = 1;
+
+    public static CreateProduct.Request CreateProductRequest() => new()
+    {
+        Name = "Тестовый продукт " + Interlocked.Add(ref _productNumber, 1),
+        Price = 100
     };
 }
