@@ -28,7 +28,8 @@ public partial class ListOrders
         }
 
         var orders = await dataContext.Orders
-            .Include(x => x.Products)
+            .Include(x => x.Products!)
+            .ThenInclude(x => x.Product)
             .Where(x => request.To >= x.OrderDate && x.OrderDate >= request.From)
             .OrderBy(x => x.OrderDate)
             .ToArrayAsync(ct);

@@ -58,7 +58,8 @@ public partial class FinishOrder
         
         if (request.OrderId <= 0 ||
             await dataContext.Orders
-                .Include(x => x.Products)
+                .Include(x => x.Products!)
+                .ThenInclude(x => x.Product)
                 .FirstOrDefaultAsync(x => x.Id == request.OrderId, ct) is not { } order)
         {
             return (TypedResults.ValidationProblem(new Dictionary<string, string[]>

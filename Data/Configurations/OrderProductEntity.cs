@@ -8,6 +8,6 @@ public class OrderProductEntity : IEntityTypeConfiguration<OrderProduct>
 {
     public void Configure(EntityTypeBuilder<OrderProduct> builder)
     {
-        builder.HasKey(x => new { x.OrderId, x.ProductName });
+        builder.HasKey(x => new { x.OrderId, x.ProductId });
     }
 }

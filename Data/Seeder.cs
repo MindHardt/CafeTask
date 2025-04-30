@@ -26,6 +26,8 @@ public static class Seeder
         };
     }
     
+    public static void Seed(DbContext dbContext, bool schemaChanged) => SeedAsync(
+        dbContext, schemaChanged, CancellationToken.None).GetAwaiter().GetResult();
     public static async Task SeedAsync(DbContext dbContext, bool schemaChanged, CancellationToken ct)
     {
         Product[] products = [Products.Carbonara, Products.Olivier, Products.Tiramisu];

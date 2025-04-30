@@ -16,5 +16,5 @@ public record OrderModel(
         order.OrderDate,
         order.PaymentType,
         order.Status,
-        order.Products!.ToDictionary(x => x.ProductName, x => x.Quantity));
+        order.Products!.ToDictionary(x => x.Product!.Name, x => x.Quantity));
 }

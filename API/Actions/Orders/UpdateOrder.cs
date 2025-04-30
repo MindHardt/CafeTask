@@ -31,7 +31,7 @@ public partial class UpdateOrder
         DataContext dataContext,
         CancellationToken ct)
     {
-        var (validationProblem, order) = await ValidateRequest(request, dataContext, ct);
+        var (validationProblem, order, products) = await ValidateRequest(request, dataContext, ct);
         if (validationProblem is not null)
         {
             return validationProblem;
@@ -42,7 +42,7 @@ public partial class UpdateOrder
             .Select(kvp => new OrderProduct
             {
                 OrderId = order.Id,
-                ProductName = kvp.Key,
+                ProductId = products[kvp.Key].Id,
                 Quantity = kvp.Value
             })
             .ToList();
@@ -51,7 +51,7 @@ public partial class UpdateOrder
         return TypedResults.Ok(OrderModel.FromOrder(order));
     }
     
-    private static async Task<(ValidationProblem? problem, Order? order)> ValidateRequest(
+    private static async Task<(ValidationProblem?, Order, Dictionary<string, Product>)> ValidateRequest(
         Request request, 
         DataContext dataContext,
         CancellationToken ct)
@@ -74,8 +74,9 @@ public partial class UpdateOrder
         {
             errors[JsonNamingPolicy.CamelCase.ConvertName(nameof(request.OrderId))] = ["ORDER_NOT_ACTIVE"];
         }
-        
-        foreach (var (product, count) in request.Content.Products)
+
+        Dictionary<string, Product> products = [];
+        foreach (var (productName, count) in request.Content.Products)
         {
             List<string> productErrors = [];
             if (count <= 0)
@@ -83,17 +84,22 @@ public partial class UpdateOrder
                 productErrors.Add("COUNT_NOT_POSITIVE");
             }
 
-            if (await dataContext.Products.AnyAsync(x => x.Name == product, ct) is false)
+            var product = await dataContext.Products.FirstOrDefaultAsync(x => x.Name == productName, ct);
+            if (product is null)
             {
                 productErrors.Add("PRODUCT_NOT_FOUND");
+            }
+            else
+            {
+                products[productName] = product;
             }
 
             if (productErrors.Count != 0)
             {
-                errors[product] = [..productErrors];
+                errors[productName] = [..productErrors];
             }
         }
 
-        return errors.Count != 0 ? (TypedResults.ValidationProblem(errors), order) : (null, order);
+        return (errors.Count != 0 ? TypedResults.ValidationProblem(errors) : null, order!, products);
     }
 }

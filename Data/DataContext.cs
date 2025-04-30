@@ -15,6 +15,7 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
     {
         optionsBuilder.UseSnakeCaseNamingConvention();
         optionsBuilder.UseAsyncSeeding(Seeder.SeedAsync);
+        optionsBuilder.UseSeeding(Seeder.Seed);
         base.OnConfiguring(optionsBuilder);
     }
 
